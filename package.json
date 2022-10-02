@@ -4,6 +4,8 @@
   "engines": {
     "node": "16.x"
   },
+  "proxy": "http://localhost:3000",
+
   "scripts": {
     "build": "npm install --prefix client && npm run build --prefix client",
     "clean": "rm -rf public",
