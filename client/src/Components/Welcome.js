@@ -15,6 +15,10 @@ return (
         Welcome, {user.name}!
         <br></br><br></br>
         <button onClick={handleDelete}>Delete My Account</button>
+       <p>My Rescues</p>
+       <p>All Rescues</p>
+       <p>Create New Rescue</p>
+
     </div>
 )
 }

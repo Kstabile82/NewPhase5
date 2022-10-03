@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function LogIn({ handleLogIn, loggedOut, handleLogout }) {
+function LogIn({ handleLogIn, loggedOut }) {
 const [name, setName] = useState("")
 const [password, setPassword] = useState("")
 
@@ -13,16 +13,16 @@ const [password, setPassword] = useState("")
            },
            body: JSON.stringify({ name, password }),
        })
-       .then((r) => (r.json()))
-       .then((R) => handleLogIn(R))
-    // .then((r) => {
-    //     if (r.ok) {
-    //       r.json()
-    //       .then((u) => {
-    //         handleLogIn(u)
-    //       })
-    //     }
-    //   });
+      //  .then((r) => (r.json()))
+      //  .then((R) => handleLogIn(R))
+    .then((r) => {
+        if (r.ok) {
+          r.json()
+          .then((u) => {
+            handleLogIn(u)
+          })
+        }
+      });
   }
 
     return (

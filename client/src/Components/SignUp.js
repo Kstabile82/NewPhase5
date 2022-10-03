@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import Welcome from "./Welcome";
 
-function SignUp({ user, handleLogIn, loggedOut, setLoggedOut, handleLogout }) {
+function SignUp({ handleLogIn }) {
 const [userName, setUserName] = useState("")
 const [password, setPassword] = useState("")
 const [confirmPassword, setConfirmPassword] = useState("")
@@ -46,7 +45,6 @@ return (
         onChange={(e) => setConfirmPassword(e.target.value)}></input>   
         <button>Enter</button>
     </form>
-     {user ? <Welcome user={user} loggedOut={loggedOut} setLoggedOut={setLoggedOut} handleLogout={handleLogout} /> : null } 
 </div>
 )
 }

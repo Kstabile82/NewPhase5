@@ -5,10 +5,14 @@ import NavBar from "./NavBar";
 import LogIn from "./LogIn";
 import SignUp from "./SignUp";
 import Welcome from "./Welcome";
+import AllRescues from "./AllRescues";
+import MyRescues from "./MyRescues";
+import NewRescue from "./NewRescue";
 
 function App() {
   const [user, setUser] = useState(null);
   const [loggedOut, setLoggedOut] = useState(true);
+  const [rescues, setRescues] = useState([])
   // const [admin, setAdmin] = useState(null)
 
   useEffect(() => {
@@ -23,6 +27,8 @@ function App() {
     })
   }, []);
 
+  //fetch rescues
+
   function handleLogIn(user) {
     setUser(user);
     setLoggedOut(false)
@@ -31,10 +37,9 @@ function App() {
     setUser(null);
     setLoggedOut(true)
   }
-  console.log(loggedOut)
   return (
     <div className="App">
-      <h1 className="Hello">Happy Paws</h1>
+      <h1 className="Hello">Pawsitive Pets</h1>
     <NavBar user={user} onLogout={handleLogout} loggedOut={loggedOut} setLoggedOut={setLoggedOut} />
     <Switch>
       <Route exact path="/login">
@@ -43,9 +48,23 @@ function App() {
       <Route exact path="/signup">
         <SignUp handleLogIn={handleLogIn} handleLogout={handleLogout} onLogout={handleLogout} user={user} setUser={setUser} loggedOut={loggedOut} setLoggedOut={setLoggedOut} />
       </Route>
-      {user && !loggedOut ? <Route exact path="/welcome">
+      {user && !loggedOut ? 
+      <Route exact path="/welcome">
        <Welcome user={user} handleLogout={handleLogout} />
        </Route> : null} 
+       {user && !loggedOut ? 
+       <Route exact path="/myrescues">
+        <MyRescues user={user} />
+        </Route>  : null} 
+        {user && !loggedOut ? 
+          <Route exact path="/allrescues">
+         <AllRescues user={user} handleLogout={handleLogout} />
+         </Route> : null} 
+         {user && !loggedOut ? 
+          <Route exact path="/newrescue">
+          <NewRescue user={user} setRescues={setRescues} rescues={rescues} />
+          </Route> 
+       : null} 
     </Switch>
   </div>
   );

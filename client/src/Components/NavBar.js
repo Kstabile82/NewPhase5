@@ -15,6 +15,9 @@ function NavBar({ onLogout, loggedOut, setLoggedOut }) {
           {loggedOut ? <Link to="/login">Log In</Link> : null } 
           {loggedOut ? <Link to="/signup">Sign Up </Link> : null }
           {!loggedOut ? <Link to="/" onClick={handleLogout}>Log Out</Link> : null }
+          {!loggedOut ? <Link to="/allrescues">All Rescues</Link> : null }
+          {!loggedOut ? <Link to="/myrescues">My Rescues</Link> : null }
+          {!loggedOut ? <Link to="/newrescue">Create New Rescue</Link> : null }
         </h1>
              </header>
     );

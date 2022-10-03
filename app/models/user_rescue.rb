@@ -1,5 +1,5 @@
 class UserRescue < ApplicationRecord
-    # belongs_to: :user  
-    belongs_to: :rescue 
+    belongs_to :user  
+    belongs_to :rescue 
 
 end
