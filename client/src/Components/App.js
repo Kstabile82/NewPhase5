@@ -31,7 +31,7 @@ function App() {
     setUser(null);
     setLoggedOut(true)
   }
-  
+  console.log(loggedOut)
   return (
     <div className="App">
       <h1 className="Hello">Happy Paws</h1>

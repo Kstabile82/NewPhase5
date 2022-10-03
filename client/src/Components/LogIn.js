@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
 function LogIn({ handleLogIn, loggedOut, handleLogout }) {
-const [inputName, setInputName] = useState("")
-const [inputPassword, setInputPassword] = useState("")
+const [name, setName] = useState("")
+const [password, setPassword] = useState("")
 
   function handleUser(e) {
        e.preventDefault();
@@ -11,16 +11,18 @@ const [inputPassword, setInputPassword] = useState("")
            headers: {
                "Content-Type": "application/json"
            },
-           body: JSON.stringify({ name: inputName, password: inputPassword }),
+           body: JSON.stringify({ name, password }),
        })
-    .then((r) => {
-        if (r.ok) {
-          r.json()
-          .then((u) => {
-            handleLogIn(u)
-          })
-        }
-      });
+       .then((r) => (r.json()))
+       .then((R) => handleLogIn(R))
+    // .then((r) => {
+    //     if (r.ok) {
+    //       r.json()
+    //       .then((u) => {
+    //         handleLogIn(u)
+    //       })
+    //     }
+    //   });
   }
 
     return (
@@ -31,12 +33,12 @@ const [inputPassword, setInputPassword] = useState("")
                 type="text" 
                 id="inputname" 
                 placeholder="Username"
-                onChange={(e) => setInputName(e.target.value)}></input>  
+                onChange={(e) => setName(e.target.value)}></input>  
                  <input 
                 type="text" 
                 id="password" 
                 placeholder="Password"
-                onChange={(e) => setInputPassword(e.target.value)}></input>  
+                onChange={(e) => setPassword(e.target.value)}></input>  
                 <button>Enter</button>
             </form> : null }
         </div>
