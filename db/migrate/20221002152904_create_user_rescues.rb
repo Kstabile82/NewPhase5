@@ -3,7 +3,7 @@ class CreateUserRescues < ActiveRecord::Migration[6.1]
     create_table :user_rescues do |t|
       t.integer :rescue_id
       t.integer :user_id
-
+     
       t.timestamps
     end
   end

@@ -1,7 +1,7 @@
 import React from "react"; 
 
-function MyRescues({ user }) { 
-
+function MyRescues({ user, userRescues, setUserRescues }) { 
+ 
 //     function handleChangeStatus(e, h) {
 //        e.preventDefault();
 //        setNewStatus(e.target.value)
@@ -34,6 +34,7 @@ function MyRescues({ user }) {
 return (
     <div>
       <p>{user.name}'s Rescues:</p>
+      {userRescues.map(uR => <p>{uR.id}, status: {uR.status}</p>)}
         {/* {userHikes.map(h => <div className="userhikes" key={h.id}><br></br>
         <HikeCard userHikes={userHikes} setUserHikes={setUserHikes} hikerhike={h} hike={h.hikemethod} user={user}/> 
         <form onSubmit={(e)=> handleSubmitStatus(h, e)}>

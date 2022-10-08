@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function NewRescue({ rescues, user, setRescues }) { 
+function NewRescue({ rescues, user, setRescues, userRescues, setUserRescues }) { 
     const [added, setAdded] = useState(false)
     const [name, setName] = useState("")
     const [location, setLocation] = useState("")
@@ -56,7 +56,7 @@ function postNewRescue(newRescue) {
             body: JSON.stringify({ rescue_id: rescue.id, user_id: user.id, status: "Admin" })
             })
         .then((r) => r.json())
-        .then((r) => console.log(r))
+        .then((r) => setUserRescues([...userRescues, r]))
         // createAdmin(rescue)
     })
 }

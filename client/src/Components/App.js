@@ -13,7 +13,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [loggedOut, setLoggedOut] = useState(true);
   const [rescues, setRescues] = useState([])
-  // const [admin, setAdmin] = useState(null)
+  const [userRescues, setUserRescues] = useState([])
 
   useEffect(() => {
     fetch("/me")
@@ -21,14 +21,20 @@ function App() {
       if (response.ok) {
         response.json().then((user) => {
           setUser(user)
+          setUserRescues(user.user_rescues)
           setLoggedOut(false)
         })
       }
     })
   }, []);
 
-  //fetch rescues
-
+  useEffect(() => {
+    fetch("/rescues")
+    .then((r) => r.json())
+    .then((currentRescues) => {
+        setRescues(currentRescues);
+     });
+    },[])
   function handleLogIn(user) {
     setUser(user);
     setLoggedOut(false)
@@ -54,15 +60,15 @@ function App() {
        </Route> : null} 
        {user && !loggedOut ? 
        <Route exact path="/myrescues">
-        <MyRescues user={user} />
+        <MyRescues user={user} userRescues={userRescues} setUserRescues={setUserRescues} />
         </Route>  : null} 
         {user && !loggedOut ? 
           <Route exact path="/allrescues">
-         <AllRescues user={user} handleLogout={handleLogout} />
+         <AllRescues user={user} handleLogout={handleLogout} rescues={rescues} setRescues={setRescues} />
          </Route> : null} 
          {user && !loggedOut ? 
           <Route exact path="/newrescue">
-          <NewRescue user={user} setRescues={setRescues} rescues={rescues} />
+          <NewRescue user={user} setRescues={setRescues} rescues={rescues} userRescues={userRescues} setUserRescues={setUserRescues} />
           </Route> 
        : null} 
     </Switch>
