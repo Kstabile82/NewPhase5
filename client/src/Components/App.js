@@ -31,10 +31,9 @@ function App() {
   useEffect(() => {
     fetch("/rescues")
     .then((r) => r.json())
-    .then((currentRescues) => {
-        setRescues(currentRescues);
-     });
-    },[])
+    .then((currentRescues) => setRescues(currentRescues));
+    },[]);
+
   function handleLogIn(user) {
     setUser(user);
     setLoggedOut(false)

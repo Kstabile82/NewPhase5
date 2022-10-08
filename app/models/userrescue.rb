@@ -1,4 +1,4 @@
-class UserRescue < ApplicationRecord
+class Userrescue < ApplicationRecord
     belongs_to :user  
     belongs_to :rescue 
 

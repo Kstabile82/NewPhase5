@@ -1,7 +1,8 @@
 import React from "react"; 
+// import Rescuepage from "./Rescuepage";
 
 function MyRescues({ user, userRescues, setUserRescues }) { 
- 
+ console.log(user)
 //     function handleChangeStatus(e, h) {
 //        e.preventDefault();
 //        setNewStatus(e.target.value)
