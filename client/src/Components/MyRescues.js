@@ -55,22 +55,12 @@ return (
       {/* {userRescues.map(uR => <div onClick={(e) => handleClick(e, uR)}>{uR.rescue.name}</div> )} */}
       {userRescues.map(uR => <div onClick={(e) => handleClick(e, uR)}>{uR.rescue.name}</div> )}
       {/* {userRescue !== {} ? <Rescuepage isAdmin={userRescue.status} user={user} rescue={userRescue.rescue}/> : null} */}
-      {userRescue !== {} ? <Rescuepage isAdmin={isAdmin} user={user} rescue={rescue} userRescue={userRescue}/> : null}
-
-        {/* {userHikes.map(h => <div className="userhikes" key={h.id}><br></br>
-        <HikeCard userHikes={userHikes} setUserHikes={setUserHikes} hikerhike={h} hike={h.hikemethod} user={user}/> 
-        <form onSubmit={(e)=> handleSubmitStatus(h, e)}>
-            <select name="Status" id="status" onChange={handleChangeStatus}>
-                <option value="" hidden>{h.status}</option>
-                <option value="Planned">Planned</option>
-                <option value="Completed">Completed</option>
-                <option value="Bucket list">Bucket List</option>
-                </select>
-                <button>Submit</button>
-        </form> 
-        <br></br>
-        <button onClick={(e) => handleDelete(h, e)}>Delete from my hikes</button><br></br>
-        </div>)} */}
+      {rescue.name !== undefined ? 
+      <div>
+      <Rescuepage isAdmin={isAdmin} user={user} rescue={rescue} userRescue={userRescue}/> 
+      <p>Status:{userRescue.status}</p> 
+      </div> : null } 
+   
     </div>
 )
 }

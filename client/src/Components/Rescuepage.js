@@ -8,8 +8,11 @@ function Rescuepage({ user, rescue, isAdmin, setIsAdmin, userRescue }) {
 return (
     <div>
     <h3>{rescue.name}</h3> 
-    {/* {user && !isAdmin ? <button>Save to My Rescues</button>:null} */}
-    {isAdmin ? <p>Status: {userRescue.status}</p> : null }
+    {userRescue && userRescue.status === "Admin" ? <div><button>Edit Rescue Information</button>
+    <button>Edit Pets</button>
+    <button>Edit Admins</button>
+    </div> : null} 
+    {!userRescue || userRescue.status === "Guest" && rescue.name !== undefined ? <div><button>Rescue Information</button> <button>Pets</button> </div>: null} 
     </div>
 
 )

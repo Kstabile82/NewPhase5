@@ -45,6 +45,8 @@ function App() {
     setUser(null);
     setLoggedOut(true)
     setUserRescues([])
+    setRescue({})
+  
   }
   function updateUserRescues(rescue, e) {
     // setUserRescues([...userRescues, ur])

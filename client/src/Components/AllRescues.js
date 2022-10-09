@@ -6,6 +6,7 @@ function AllRescues({ updateUserRescues, user, rescues, setRescue, rescue, isAdm
     let displayedRescues = []
     setIsAdmin(false)
     //setUserRescue({})
+    //fetch userRescues if user
 
     if (user && user.userrescues.length > 0) {
         user.userrescues.map(ur => {
@@ -37,7 +38,7 @@ function AllRescues({ updateUserRescues, user, rescues, setRescue, rescue, isAdm
     return (
         <div className="container">
             {displayedRescues.map(r => <p className={r.id} onClick={handleClick}>{r.name}, {r.location}</p>)}
-           {rescue ? <div>
+           {rescue.name !== undefined ? <div>
             <Rescuepage isAdmin={isAdmin} setIsAdmin={setIsAdmin} user={user} rescue={rescue}/> 
             <button onClick={(e) => handleSaveToMyRescues(e, rescue)}>Save to My Rescues</button> </div> : null }
            <p>Search</p>
