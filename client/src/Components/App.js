@@ -14,6 +14,9 @@ function App() {
   const [loggedOut, setLoggedOut] = useState(true);
   const [rescues, setRescues] = useState([])
   const [userRescues, setUserRescues] = useState([])
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [rescue, setRescue] = useState({})
+
 
   useEffect(() => {
     fetch("/me")
@@ -21,7 +24,7 @@ function App() {
       if (response.ok) {
         response.json().then((user) => {
           setUser(user)
-          setUserRescues(user.user_rescues)
+          setUserRescues(user.userrescues)
           setLoggedOut(false)
         })
       }
@@ -59,11 +62,11 @@ function App() {
        </Route> : null} 
        {user && !loggedOut ? 
        <Route exact path="/myrescues">
-        <MyRescues user={user} userRescues={userRescues} setUserRescues={setUserRescues} />
+        <MyRescues setRescue={setRescue} rescue={rescue} isAdmin={isAdmin} setIsAdmin={setIsAdmin} user={user} userRescues={userRescues} setUserRescues={setUserRescues} />
         </Route>  : null} 
         {user && !loggedOut ? 
           <Route exact path="/allrescues">
-         <AllRescues user={user} handleLogout={handleLogout} rescues={rescues} setRescues={setRescues} />
+         <AllRescues setRescue={setRescue} rescue={rescue} isAdmin={isAdmin} setIsAdmin={setIsAdmin} user={user} handleLogout={handleLogout} rescues={rescues} setRescues={setRescues} />
          </Route> : null} 
          {user && !loggedOut ? 
           <Route exact path="/newrescue">

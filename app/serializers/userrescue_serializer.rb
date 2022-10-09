@@ -1,5 +1,6 @@
 class UserrescueSerializer < ActiveModel::Serializer
-  attributes :id, :rescue_id, :user_id
+  attributes :status, :rescue
   belongs_to :user  
-  
+  belongs_to :rescue
+
 end

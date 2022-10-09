@@ -1,20 +1,37 @@
 import React, { useState } from "react"; 
 import Rescuepage from "./Rescuepage";
 
-function AllRescues({ user, rescues, setRescues }) {
-    const [rescue, setRescue] = useState({})
+function AllRescues({ user, rescues, setRescues, setRescue, rescue, isAdmin, setIsAdmin }) {
+    // const [rescue, setRescue] = useState({})
+    // const [displayedRescues, setDisplayedRescues] = useState([])
+    let displayedRescueIDs = []
+    let displayedRescues = []
+    setIsAdmin(false)
+
+    if (user && user.userrescues.length > 0) {
+        user.userrescues.map(ur => {
+        displayedRescueIDs.push(ur.rescue.id)
+        })
+    }
+    if (displayedRescueIDs.length > 0) {
+             rescues.map(r => {
+            if (!displayedRescueIDs.includes(r.id)){
+                displayedRescues.push(r)           
+         }
+        })
+    }
 
     function handleClick(e) {
-        e.preventDefault();
+      e.preventDefault();
       let num = parseInt(e.target.className);
       setRescue(rescues.find(r => r.id === num))
 }
 
     return (
         <div className="container">
-            {rescues.map(r => <p className={r.id} onClick={handleClick}>{r.name}, {r.location}</p>)}
+            {displayedRescues.map(r => <p className={r.id} onClick={handleClick}>{r.name}, {r.location}</p>)}
            <p>Find a Rescue</p>
-           {rescue !== {} ? <Rescuepage user={user} rescue={rescue}/> : null }
+           {rescue !== {} ? <Rescuepage isAdmin={isAdmin} setIsAdmin={setIsAdmin} user={user} rescue={rescue}/> : null }
            <div className="filter">Filter:
             {/* <form onSubmit={handleSubmitFilter}>
                 <select name="difficulty" id="difficulty" onChange={handleFilterChange}>

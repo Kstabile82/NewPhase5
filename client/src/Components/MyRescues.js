@@ -1,8 +1,25 @@
-import React from "react"; 
-// import Rescuepage from "./Rescuepage";
+import React, { useState } from "react"; 
+import Rescuepage from "./Rescuepage";
 
-function MyRescues({ user, userRescues, setUserRescues }) { 
- console.log(user)
+function MyRescues({ user, rescue, setRescue, userRescues, setUserRescues, isAdmin, setIsAdmin, isGuest, setIsGuest }) { 
+  const [userRescue, setUserRescue] = useState({}) 
+  setIsAdmin(true)
+  function handleClick(e, uR) {
+    setUserRescue(uR)
+    if (uR.status === "Admin"){
+        setIsAdmin(true)
+    }
+    setRescue(uR.rescue)
+        //    if(uR.status === "Admin"){
+        //     setIsAdmin(true)
+        //    }
+        //    else if(uR.status === "Guest") {
+        //     setIsGuest(true)
+        //    }
+        //     setClickedRescue(true)
+        //     // setRescue(uR)
+        }
+
 //     function handleChangeStatus(e, h) {
 //        e.preventDefault();
 //        setNewStatus(e.target.value)
@@ -35,7 +52,11 @@ function MyRescues({ user, userRescues, setUserRescues }) {
 return (
     <div>
       <p>{user.name}'s Rescues:</p>
-      {userRescues.map(uR => <p>{uR.id}, status: {uR.status}</p>)}
+      {/* {userRescues.map(uR => <div onClick={(e) => handleClick(e, uR)}>{uR.rescue.name}</div> )} */}
+      {userRescues.map(uR => <div onClick={(e) => handleClick(e, uR)}>{uR.rescue.name}</div> )}
+      {/* {userRescue !== {} ? <Rescuepage isAdmin={userRescue.status} user={user} rescue={userRescue.rescue}/> : null} */}
+      {userRescue !== {} ? <Rescuepage isAdmin={isAdmin} user={user} rescue={rescue} userRescue={userRescue}/> : null}
+
         {/* {userHikes.map(h => <div className="userhikes" key={h.id}><br></br>
         <HikeCard userHikes={userHikes} setUserHikes={setUserHikes} hikerhike={h} hike={h.hikemethod} user={user}/> 
         <form onSubmit={(e)=> handleSubmitStatus(h, e)}>
