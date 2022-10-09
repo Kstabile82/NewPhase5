@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   patch "/user/:id", to: "users#update"
   post "/newrescue", to: "rescues#create"
   post "/myrescues", to: "userrescues#create"
+  post "/allusers", to: "userrescues#showalluserstoadmin"
   # Routing logic: fallback requests for React Router.
   # Leave this here to help deploy your app later!
 end

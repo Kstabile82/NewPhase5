@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
 rescue ActiveRecord::RecordInvalid => invalid
     render json: { errors: invalid.record.errors.full_messages }, status: :unprocessable_entity
-  
     before_action :authorize
     skip_before_action :authorize, only: :create
 
@@ -55,5 +54,5 @@ rescue ActiveRecord::RecordInvalid => invalid
 
     # def authorize
     #     return render json: { error: "Not authorized" }, status: :unauthorized unless session.include? :user_id
-    # end
+    # end set this up so its contingent upon admin status
 end
