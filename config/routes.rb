@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   delete "logout", to: "sessions#destroy"
   patch "/user/:id", to: "users#update"
   post "/newrescue", to: "rescues#create"
-  post "userrescue", to: "userrescues#create"
+  post "/myrescues", to: "userrescues#create"
   # Routing logic: fallback requests for React Router.
   # Leave this here to help deploy your app later!
 end

@@ -17,14 +17,12 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(false)
   const [rescue, setRescue] = useState({})
 
-
   useEffect(() => {
     fetch("/me")
     .then((response) => {
       if (response.ok) {
-        response.json().then((user) => {
-          setUser(user)
-          setUserRescues(user.userrescues)
+        response.json().then((u) => {
+          setUser(u)
           setLoggedOut(false)
         })
       }
@@ -40,10 +38,33 @@ function App() {
   function handleLogIn(user) {
     setUser(user);
     setLoggedOut(false)
+    setUserRescues(user.userrescues)
+
   }
   function handleLogout() {
     setUser(null);
     setLoggedOut(true)
+    setUserRescues([])
+  }
+  function updateUserRescues(rescue, e) {
+    // setUserRescues([...userRescues, ur])
+    e.preventDefault();
+    fetch("/myrescues", {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+        rescue_id: rescue.id,
+        user_id: user.id,
+        status: "Guest"
+        }),
+    })
+    .then((r) => r.json())
+    .then((ur) => {
+      setUserRescues([...userRescues, ur])
+    })
+
   }
   return (
     <div className="App">
@@ -66,7 +87,7 @@ function App() {
         </Route>  : null} 
         {user && !loggedOut ? 
           <Route exact path="/allrescues">
-         <AllRescues setRescue={setRescue} rescue={rescue} isAdmin={isAdmin} setIsAdmin={setIsAdmin} user={user} handleLogout={handleLogout} rescues={rescues} setRescues={setRescues} />
+         <AllRescues updateUserRescues={updateUserRescues} setRescue={setRescue} rescue={rescue} isAdmin={isAdmin} setIsAdmin={setIsAdmin} user={user} handleLogout={handleLogout} rescues={rescues} setRescues={setRescues} />
          </Route> : null} 
          {user && !loggedOut ? 
           <Route exact path="/newrescue">

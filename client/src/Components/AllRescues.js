@@ -1,12 +1,11 @@
 import React, { useState } from "react"; 
 import Rescuepage from "./Rescuepage";
 
-function AllRescues({ user, rescues, setRescues, setRescue, rescue, isAdmin, setIsAdmin }) {
-    // const [rescue, setRescue] = useState({})
-    // const [displayedRescues, setDisplayedRescues] = useState([])
+function AllRescues({ updateUserRescues, user, rescues, setRescue, rescue, isAdmin, setIsAdmin }) {
     let displayedRescueIDs = []
     let displayedRescues = []
     setIsAdmin(false)
+    //setUserRescue({})
 
     if (user && user.userrescues.length > 0) {
         user.userrescues.map(ur => {
@@ -20,29 +19,39 @@ function AllRescues({ user, rescues, setRescues, setRescue, rescue, isAdmin, set
          }
         })
     }
-
     function handleClick(e) {
       e.preventDefault();
       let num = parseInt(e.target.className);
       setRescue(rescues.find(r => r.id === num))
-}
+    }
+    function handleSaveToMyRescues(e, rescue) {
+        updateUserRescues(rescue, e)
+    }
 
+    function handleFilterChange() {
+
+    }
+    function handleSubmitFilter(){
+
+    }
     return (
         <div className="container">
             {displayedRescues.map(r => <p className={r.id} onClick={handleClick}>{r.name}, {r.location}</p>)}
-           <p>Find a Rescue</p>
-           {rescue !== {} ? <Rescuepage isAdmin={isAdmin} setIsAdmin={setIsAdmin} user={user} rescue={rescue}/> : null }
+           {rescue ? <div>
+            <Rescuepage isAdmin={isAdmin} setIsAdmin={setIsAdmin} user={user} rescue={rescue}/> 
+            <button onClick={(e) => handleSaveToMyRescues(e, rescue)}>Save to My Rescues</button> </div> : null }
+           <p>Search</p>
            <div className="filter">Filter:
-            {/* <form onSubmit={handleSubmitFilter}>
-                <select name="difficulty" id="difficulty" onChange={handleFilterChange}>
-                <option key="" value="" hidden>Difficulty</option>
-                <option key="advanced" value="Advanced" >Advanced</option>
-                <option key="beginner" value="Beginner" >Beginner</option>
-                <option key="intermediate" value="Intermediate" >Intermediate</option>
+            <form onSubmit={handleSubmitFilter}>
+                <select name="location" id="location" onChange={handleFilterChange}>
+                <option key="" value="" hidden>Location</option>
+                <option key="NY" value="NY" >NY</option>
+                <option key="NJ" value="NJ" >NJ</option>
+                <option key="CA" value="CA" >CA</option>
                 <option key="all" value="All" >All</option>
                 </select>
-                <b> </b> */}
-            {/* </form>  */}
+                <b> </b> 
+             </form> 
             </div>
             </div>
     );
