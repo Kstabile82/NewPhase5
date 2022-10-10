@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-rescue ActiveRecord::RecordInvalid => invalid
-    render json: { errors: invalid.record.errors.full_messages }, status: :unprocessable_entity
+# rescue ActiveRecord::RecordInvalid => invalid
+#     render json: { errors: invalid.record.errors.full_messages }, status: :unprocessable_entity
     before_action :authorize
     skip_before_action :authorize, only: :create
 

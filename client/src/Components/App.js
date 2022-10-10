@@ -77,6 +77,17 @@ function App() {
         .then((r) => r.json())
         .then((updatedUR) => console.log(updatedUR))
 }
+function handleAddAdmin(e, v){
+  fetch(`/userrescues/${v.id}`, {
+           method: "PATCH",
+           headers: {
+               "Content-Type": "application/json",
+           },
+           body: JSON.stringify({ status: "Admin" }),
+       })
+       .then((r) => r.json())
+       .then((updatedUR) => console.log(updatedUR))
+}
   return (
     <div className="App">
       <h1 className="Hello">Pawsitive Pets</h1>
@@ -94,7 +105,7 @@ function App() {
        </Route> : null} 
        {user && !loggedOut ? 
        <Route exact path="/myrescues">
-        <MyRescues handleRemoveAdmin={handleRemoveAdmin} setRescue={setRescue} rescue={rescue} isAdmin={isAdmin} setIsAdmin={setIsAdmin} user={user} userRescues={userRescues} setUserRescues={setUserRescues} />
+        <MyRescues handleRemoveAdmin={handleRemoveAdmin} handleAddAdmin={handleAddAdmin} setRescue={setRescue} rescue={rescue} isAdmin={isAdmin} setIsAdmin={setIsAdmin} user={user} userRescues={userRescues} setUserRescues={setUserRescues} />
         </Route>  : null} 
         {user && !loggedOut ? 
           <Route exact path="/allrescues">

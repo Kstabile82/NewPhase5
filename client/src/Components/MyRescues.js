@@ -1,7 +1,7 @@
 import React, { useState } from "react"; 
 import Rescuepage from "./Rescuepage";
 
-function MyRescues({ handleRemoveAdmin, user, rescue, setRescue, userRescues, setUserRescues, isAdmin, setIsAdmin, isGuest, setIsGuest }) { 
+function MyRescues({ handleRemoveAdmin, handleAddAdmin, user, rescue, setRescue, userRescues, setUserRescues, isAdmin, setIsAdmin, isGuest, setIsGuest }) { 
   const [userRescue, setUserRescue] = useState({}) 
   setIsAdmin(true)
   function handleClick(e, uR) {
@@ -58,7 +58,7 @@ return (
       {/* {userRescue !== {} ? <Rescuepage isAdmin={userRescue.status} user={user} rescue={userRescue.rescue}/> : null} */}
       {rescue.name !== undefined ? 
       <div>
-      <Rescuepage handleRemoveAdmin={handleRemoveAdmin} isAdmin={isAdmin} user={user} rescue={rescue} userRescue={userRescue}/> 
+      <Rescuepage handleAddAdmin={handleAddAdmin} handleRemoveAdmin={handleRemoveAdmin} isAdmin={isAdmin} user={user} rescue={rescue} userRescue={userRescue}/> 
       </div> : null } 
    
     </div>

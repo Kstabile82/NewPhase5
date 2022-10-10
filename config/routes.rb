@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   get "/me", to: "users#show"
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
-  # patch "/user/:id", to: "users#update"
+  patch "/user/:id", to: "users#update"
   post "/newrescue", to: "rescues#create"
   post "/myrescues", to: "userrescues#create"
   patch "/userrescues", to: "userrescues#update"

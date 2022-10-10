@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function Adminpage({ user, rescue, handleRemoveAdmin }) {
+function Adminpage({ user, rescue, handleRemoveAdmin, handleAddAdmin }) {
     const [viewedUsers, setViewedUsers] = useState([])
     const [clicked, setClicked] = useState("")
     function handleUsers(e) {
@@ -10,7 +10,7 @@ function Adminpage({ user, rescue, handleRemoveAdmin }) {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ rescue_id: parseInt(rescue.id), user_id: parseInt(user.id) }),
+            body: JSON.stringify({ rescue_id: parseInt(rescue.id) }),
         })
         .then((r) => r.json())
         .then((ur) => { 
@@ -28,8 +28,12 @@ return (
     <button>Edit Rescue Information</button>
     <button>Edit Pets</button>
     <button onClick={handleUsers}>Edit Users</button>
-    {clicked === "users" && viewedUsers.length > 0 ? viewedUsers.map(v => <div><p>{v.user.name}, {v.status}</p> {v.status === "Admin" ? 
-    <button onClick={(e) => handleRemoveAdmin(e, v)}>Remove</button> : null} </div>): null}
+    {clicked === "users" && viewedUsers.length > 0 ? viewedUsers.map(v => <div><p>{v.user.name}, {v.status}</p> 
+    {v.status === "Admin" ? 
+    <button onClick={(e) => handleRemoveAdmin(e, v)}>Remove Admin</button> :
+    <button onClick={(e) => handleAddAdmin(e, v)}>Make Admin</button>  
+    } </div>) 
+   : null }
     </div>
 
 )

@@ -13,6 +13,9 @@ function AllRescues({ updateUserRescues, user, rescues, setRescue, rescue, isAdm
         displayedRescueIDs.push(ur.rescue.id)
         })
     }
+    else {
+        displayedRescues = rescues 
+    }
     if (displayedRescueIDs.length > 0) {
              rescues.map(r => {
             if (!displayedRescueIDs.includes(r.id)){

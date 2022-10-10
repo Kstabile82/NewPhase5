@@ -20,11 +20,13 @@ class UserrescuesController < ApplicationController
     end
 
     def showalluserstoadmin
-            ur = Userrescue.find_by(rescue_id: params[:rescue_id], user_id: params[:user_id])
-            if ur.status === "Admin"
-                userrescues = Userrescue.where(rescue_id: ur.rescue_id)
-                render json: userrescues, status: 200
-            end
+            # ur = Userrescue.find_by(rescue_id: params[:rescue_id], user_id: params[:user_id])
+            # if ur.status === "Admin"
+            #     userrescues = Userrescue.where(rescue_id: ur.rescue_id)
+            #     render json: userrescues, status: 200
+            # end
+            userrescues = Userrescue.where(rescue_id: params[:rescue_id])
+            render json: userrescues, status: 200
     end
 
     private

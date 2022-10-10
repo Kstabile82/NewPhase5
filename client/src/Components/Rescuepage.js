@@ -1,7 +1,7 @@
 import React from "react";
 import Adminpage from "./Adminpage"
 
-function Rescuepage({ user, rescue, isAdmin, setIsAdmin, userRescue, handleRemoveAdmin }) {
+function Rescuepage({ user, rescue, isAdmin, setIsAdmin, userRescue, handleRemoveAdmin, handleAddAdmin }) {
     // user.userrescues.map(uR => {
     //     if(uR.rescue.id === rescue.id && uR.status === "Admin"){
     //         setIsAdmin(true)
@@ -22,7 +22,7 @@ function Rescuepage({ user, rescue, isAdmin, setIsAdmin, userRescue, handleRemov
 return (
     <div>
     <h3>{rescue.name}</h3> 
-    {userRescue && userRescue.status === "Admin" ? <Adminpage user={user} rescue={rescue} handleRemoveAdmin={handleRemoveAdmin} />
+    {userRescue && userRescue.status === "Admin" ? <Adminpage user={user} rescue={rescue} handleAddAdmin={handleAddAdmin} handleRemoveAdmin={handleRemoveAdmin} />
     // <div><button>Edit Rescue Information</button>
     // <button>Edit Pets</button>
     // <button onClick={handleUsers}>Edit Users</button>
