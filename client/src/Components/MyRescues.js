@@ -1,7 +1,7 @@
 import React, { useState } from "react"; 
 import Rescuepage from "./Rescuepage";
 
-function MyRescues({ user, rescue, setRescue, userRescues, setUserRescues, isAdmin, setIsAdmin, isGuest, setIsGuest }) { 
+function MyRescues({ handleRemoveAdmin, user, rescue, setRescue, userRescues, setUserRescues, isAdmin, setIsAdmin, isGuest, setIsGuest }) { 
   const [userRescue, setUserRescue] = useState({}) 
   setIsAdmin(true)
   function handleClick(e, uR) {
@@ -53,12 +53,12 @@ return (
     <div>
       <p>{user.name}'s Rescues:</p>
       {/* {userRescues.map(uR => <div onClick={(e) => handleClick(e, uR)}>{uR.rescue.name}</div> )} */}
-      {userRescues.map(uR => <div onClick={(e) => handleClick(e, uR)}>{uR.rescue.name}</div> )}
+      {userRescues.map(uR => <div onClick={(e) => handleClick(e, uR)}>{uR.rescue.name} • Status: {uR.status}
+</div> )}
       {/* {userRescue !== {} ? <Rescuepage isAdmin={userRescue.status} user={user} rescue={userRescue.rescue}/> : null} */}
       {rescue.name !== undefined ? 
       <div>
-      <Rescuepage isAdmin={isAdmin} user={user} rescue={rescue} userRescue={userRescue}/> 
-      <p>Status:{userRescue.status}</p> 
+      <Rescuepage handleRemoveAdmin={handleRemoveAdmin} isAdmin={isAdmin} user={user} rescue={rescue} userRescue={userRescue}/> 
       </div> : null } 
    
     </div>

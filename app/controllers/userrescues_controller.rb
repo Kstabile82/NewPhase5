@@ -7,6 +7,12 @@ class UserrescuesController < ApplicationController
         render json: uR, status: 200 
     end
 
+    def update
+        userR = Userrescue.find(params[:id])
+        userR.update(status: params[:status])
+        render json: userR
+    end
+  
     def destroy
         uR = Userrescue.find(params[:id])
         uR.destroy
@@ -14,11 +20,9 @@ class UserrescuesController < ApplicationController
     end
 
     def showalluserstoadmin
-            # ur = Userrescue.find_by(params[:rescue_id][:user_id])
             ur = Userrescue.find_by(rescue_id: params[:rescue_id], user_id: params[:user_id])
             if ur.status === "Admin"
                 userrescues = Userrescue.where(rescue_id: ur.rescue_id)
-                # userrescues = Userrescue.where(:rescue_id = ur.rescue_id)
                 render json: userrescues, status: 200
             end
     end

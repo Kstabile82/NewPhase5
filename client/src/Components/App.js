@@ -49,7 +49,6 @@ function App() {
   
   }
   function updateUserRescues(rescue, e) {
-    // setUserRescues([...userRescues, ur])
     e.preventDefault();
     fetch("/myrescues", {
         method: "POST",
@@ -66,8 +65,18 @@ function App() {
     .then((ur) => {
       setUserRescues([...userRescues, ur])
     })
-
   }
+  function handleRemoveAdmin(e, v){
+   fetch(`/userrescues/${v.id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ status: "Guest" }),
+        })
+        .then((r) => r.json())
+        .then((updatedUR) => console.log(updatedUR))
+}
   return (
     <div className="App">
       <h1 className="Hello">Pawsitive Pets</h1>
@@ -85,7 +94,7 @@ function App() {
        </Route> : null} 
        {user && !loggedOut ? 
        <Route exact path="/myrescues">
-        <MyRescues setRescue={setRescue} rescue={rescue} isAdmin={isAdmin} setIsAdmin={setIsAdmin} user={user} userRescues={userRescues} setUserRescues={setUserRescues} />
+        <MyRescues handleRemoveAdmin={handleRemoveAdmin} setRescue={setRescue} rescue={rescue} isAdmin={isAdmin} setIsAdmin={setIsAdmin} user={user} userRescues={userRescues} setUserRescues={setUserRescues} />
         </Route>  : null} 
         {user && !loggedOut ? 
           <Route exact path="/allrescues">
