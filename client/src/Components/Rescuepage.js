@@ -18,7 +18,10 @@ function Rescuepage({ user, rescue, isAdmin, setIsAdmin, userRescue, handleRemov
         .then((r) => r.json())
         .then((ur) => console.log(ur))
        }
-    
+    function handleShowUserInfo(e) {
+        e.preventDefault();
+        console.log(rescue)
+    }
 return (
     <div>
     <h3>{rescue.name}</h3> 
@@ -29,7 +32,7 @@ return (
     // </div> 
     // null} 
     // {!userRescue || userRescue.status === "Guest" && rescue.name !== undefined ? 
-    : <div><button>Rescue Information</button> <button>Pets</button></div> }
+    : <div><button onClick={handleShowUserInfo}>Rescue Information</button> <button>Pets</button></div> }
     </div>
 )
 }

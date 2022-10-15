@@ -22,10 +22,13 @@ function Adminpage({ user, rescue, handleRemoveAdmin, handleAddAdmin }) {
     // if(viewedUsers.length > 0) {
     //     viewedUsers.map(v => console.log(v.user.name))
     // }
-  
+  function handleShowAdminInfo(e) {
+    e.preventDefault();
+    console.log(rescue)
+  }
 return (
     <div>
-    <button>Edit Rescue Information</button>
+    <button onClick={handleShowAdminInfo}>Edit Rescue Information</button>
     <button>Edit Pets</button>
     <button onClick={handleUsers}>Edit Users</button>
     {clicked === "users" && viewedUsers.length > 0 ? viewedUsers.map(v => <div><p>{v.user.name}, {v.status}</p> 

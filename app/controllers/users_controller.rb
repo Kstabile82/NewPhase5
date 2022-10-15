@@ -30,7 +30,8 @@ class UsersController < ApplicationController
        user(id: session[:user_id])
         if user
             updatedUser = user.update(user_params)
-            render json: user
+            render json: updatedUser
+            # render json: user
         else
             render json: { message: "Not logged in" }, status: :unauthorized
         end
