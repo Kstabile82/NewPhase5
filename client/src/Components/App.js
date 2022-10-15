@@ -38,7 +38,7 @@ function App() {
   function handleLogIn(user) {
     setUser(user);
     setLoggedOut(false)
-    setUserRescues(user.userrescues)
+    // setUserRescues(user.userrescues)
 
   }
   function handleLogout() {

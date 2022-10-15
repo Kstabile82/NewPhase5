@@ -3,7 +3,8 @@ import Rescuepage from "./Rescuepage";
 
 function MyRescues({ handleRemoveAdmin, handleAddAdmin, user, rescue, setRescue, userRescues, setUserRescues, isAdmin, setIsAdmin, isGuest, setIsGuest }) { 
   const [userRescue, setUserRescue] = useState({}) 
-  setIsAdmin(true)
+    setUserRescues(user.userrescues)  
+    setIsAdmin(true)
   function handleClick(e, uR) {
     setUserRescue(uR)
     if (uR.status === "Admin"){
