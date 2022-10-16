@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function Adminpage({ user, rescue, handleRemoveAdmin, handleAddAdmin }) {
     const [viewedUsers, setViewedUsers] = useState([])
@@ -11,7 +11,24 @@ function Adminpage({ user, rescue, handleRemoveAdmin, handleAddAdmin }) {
     const [info, setInfo] = useState([])
     const [addInfo, setAddInfo] = useState(false)
     const [addMoreInfo, setAddMoreInfo] = useState(false)
+    let title; 
+    let text;
 
+    useEffect(() => {
+        fetch("/information", {
+            method: "POST", 
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ rescue_id: parseInt(rescue.id) }),
+        })
+        .then((r) => r.json())
+        .then((inf) => { 
+            setInfo(inf)
+            }
+            ) 
+        },[]);
+    
     function handleUsers(e) {
         e.preventDefault();
         fetch(`/allusers`, {
@@ -55,12 +72,35 @@ function Adminpage({ user, rescue, handleRemoveAdmin, handleAddAdmin }) {
   }
   function handleChangeInfo(e){
     e.preventDefault();
-
+    if (e.target.placeholder === "Title") {
+        title = e.target.value;
+    }
+    if (e.target.placeholder === "Enter text") {
+        text = e.target.value
+    }
   }
   function handleSaveInfo(e){
     e.preventDefault();
     setAddMoreInfo(false)
-  }
+    fetch(`/newinformation`, {
+        method: "POST", 
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ rescue_id: rescue.id, title, text }),
+    })
+    .then((r) => r.json())
+    .then((newInfo) => {
+        setInfo([...info, newInfo])
+    })
+   }
+
+   function handleDeleteInfo(e, i) {
+    fetch(`/information/${i.id}`, { 
+        method: 'DELETE'
+    })
+    setInfo(info.filter(inf => inf.id !== i.id))   }
+    
 return (
     <div>
     {/* <button onClick={handleShowAdminInfo}>Edit Rescue Information</button>
@@ -72,36 +112,50 @@ return (
     <ul>question3<li>option1</li><li>option2</li></ul> */}
     {/* <button>edit</button> */}
     <button onClick={handleAddInfo}>Edit Info</button>
-    {/* if clicked, set state and pull up a form. on submit, set state back to false. */}
     {addInfo ? <div>
        <form>
         Details:  
         <input 
         type="text" 
         id="rescuename" 
-        placeholder="Name"></input>  
+        defaultValue={rescue.name}></input>  
         <input 
         type="text" 
         id="rescuelocation" 
-        placeholder="Location"></input>
-        <br></br>
-        Information: <input 
-        type="text" 
-        id="info" 
-        placeholder="Title"></input>   
-        <input 
-        type="text" 
-        id="info" 
-        placeholder="Text"></input>     
+        defaultValue={rescue.location}></input>
+        <br></br>  
     </form>
-    <button onClick={handleAddMoreInfo}>Add More</button>
+    <button>Save</button>
+    {addInfo && info.length > 0 ? info.map(i => <div>
+            <form>
+            Title: <input 
+                type="text" 
+                id="rescuename" 
+                placeholder={i.title}
+                defaultValue={i.title}>
+            </input><br></br>
+            Text: <input 
+                type="text" 
+                id="rescuename" 
+                placeholder={i.text}
+                defaultValue={i.text}>
+            </input> 
+            </form>
+            <button onClick={(e) => handleDeleteInfo(e, i)}>Delete</button><button>Save</button><br></br>
+            </div> ): null} 
+    <button onClick={handleAddMoreInfo}>Add Information</button>
     {addMoreInfo ? <div>
         <form onChange={handleChangeInfo}>
             <input 
             type="text" 
             id="rescuelocation" 
+            placeholder="Title"></input>
+            <input 
+            type="text" 
+            id="rescuelocation" 
             placeholder="Enter text"></input>
-        </form> <button onClick={handleSaveInfo}>Save</button>
+        </form> 
+        <button onClick={handleSaveInfo}>Save</button>
     </div> : null}
     <button onClick={handleSubmitInfo}>Submit</button> 
     </div>

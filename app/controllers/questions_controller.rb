@@ -1,4 +1,9 @@
 class QuestionsController < ApplicationController
+    def create
+        q = Question.create(qparams)
+        render json: q, status: 200
+    end
+   
     def show
         q = Question.where(information_id: params[:information_id])
         render json: q, status: 200

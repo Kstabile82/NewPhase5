@@ -5,6 +5,11 @@ class InformationsController < ApplicationController
      render json: info, status: 200
     end
 
+    def create
+        info = Information.create(infoParams)
+        render json: info, status: 200
+    end
+
     def destroy
         info = Information.find(params[:id])
         info.destroy
