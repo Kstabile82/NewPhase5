@@ -11,9 +11,10 @@ function Adminpage({ user, rescue, handleRemoveAdmin, handleAddAdmin }) {
     const [info, setInfo] = useState([])
     const [addInfo, setAddInfo] = useState(false)
     const [addMoreInfo, setAddMoreInfo] = useState(false)
+    const [i, setI] = useState({})
     let title; 
     let text;
-
+    let updatedInfo = {}
     useEffect(() => {
         fetch("/information", {
             method: "POST", 
@@ -95,37 +96,32 @@ function Adminpage({ user, rescue, handleRemoveAdmin, handleAddAdmin }) {
     })
     setInfo(info.filter(inf => inf.id !== i.id))   }
     
-    function handleEditQs(e) {
-        e.preventDefault();
+    function handleEditQs(e, i) {
         setEditQs(true)
+        setI(i)
     }
     function handleSaveInfoChanges(e, i) {
+        console.log(i)
+        //want the save click to save ONLY what's in that input box
         fetch(`/information/${i.id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ title, text }),
+            body: JSON.stringify({ i }),
         })
         .then((r) => r.json())
-        .then((updatedI) => console.log(info))
-      
-        // .then((updatedI) => setInfo([...info.filter(inf => inf.id !== updatedI.id), updatedI]))
+        // .then((updatedI) => console.log(info))
+        .then((updatedI) => setInfo([...info.filter(inf => inf.id !== updatedI.id), updatedI]))
     }
     function handleInfoChange(e, i) {
+        updatedInfo = i 
         if (e.target.id === "title") {
-            title = e.target.value;
-        }
-        else {
-            title = i.title
+            i.title = e.target.value;
         }
         if (e.target.id === "text") {
-            text = e.target.value
-        }
-        else {
-            text = i.text
-        }
-        console.log(title, text)
+            i.text = e.target.value
+        }    
     }
 return (
     <div>
@@ -160,9 +156,10 @@ return (
                 defaultValue={i.text}>
             </input> 
             </form>
-            <button onClick={(e) => handleDeleteInfo(e, i)}>Delete</button><button onClick={(e) => handleSaveInfoChanges(e, i)}>Save</button><button onClick={handleEditQs}>Edit Questions</button><br></br>
-            {editQs ? <Questions /> : null }
+            <button onClick={(e) => handleDeleteInfo(e, i)}>Delete</button><button onClick={(e) => handleSaveInfoChanges(e, i)}>Save</button><button onClick={(e) => handleEditQs(e, i)}>Edit Questions</button><br></br>
         </div> ): null} 
+        {editQs && i !== {} ? <Questions i={i} /> : null }
+
     <button onClick={handleAddMoreInfo}>Add Information</button>
     {addMoreInfo ? <div>
         <form onChange={handleChangeInfo}>
