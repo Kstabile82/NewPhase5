@@ -36,7 +36,6 @@ function NewRescue({ rescues, user, setRescues, userRescues, setUserRescues }) {
         setAdded(true)
     }
 }
-
 function postNewRescue(newRescue) {
     fetch ("/newrescue", {
         method: "POST",
@@ -57,10 +56,8 @@ function postNewRescue(newRescue) {
             })
         .then((r) => r.json())
         .then((r) => setUserRescues([...userRescues, r]))
-        // createAdmin(rescue)
     })
 }
-
 function createAdmin(rescue) {
     fetch ("/userrescue", {
         method: "POST",
@@ -72,8 +69,6 @@ function createAdmin(rescue) {
     .then((r) => r.json())
     .then((r) => console.log(r))
 }
- 
-
     return (
         <div className="add-rescue-form">
              <form onSubmit={handleSubmit}>

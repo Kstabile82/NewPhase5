@@ -13,8 +13,6 @@ const [password, setPassword] = useState("")
            },
            body: JSON.stringify({ name, password }),
        })
-      //  .then((r) => (r.json()))
-      //  .then((R) => handleLogIn(R))
     .then((r) => {
         if (r.ok) {
           r.json()
@@ -24,7 +22,6 @@ const [password, setPassword] = useState("")
         }
       });
   }
-
     return (
         <div>
             {loggedOut ? 

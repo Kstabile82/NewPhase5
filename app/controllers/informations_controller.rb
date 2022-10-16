@@ -17,8 +17,8 @@ class InformationsController < ApplicationController
 
     def update
         info = Information.find(params[:id])
-        updatedInfo = info.update(infoParams)
-        render json: updatedInfo
+        info.update(infoParams)
+        render json: info
     end
 
     private 

@@ -53,10 +53,8 @@ function MyRescues({ handleRemoveAdmin, handleAddAdmin, user, rescue, setRescue,
 return (
     <div>
       <p>{user.name}'s Rescues:</p>
-      {/* {userRescues.map(uR => <div onClick={(e) => handleClick(e, uR)}>{uR.rescue.name}</div> )} */}
       {userRescues.map(uR => <div onClick={(e) => handleClick(e, uR)}>{uR.rescue.name} • Status: {uR.status}
 </div> )}
-      {/* {userRescue !== {} ? <Rescuepage isAdmin={userRescue.status} user={user} rescue={userRescue.rescue}/> : null} */}
       {rescue.name !== undefined ? 
       <div>
       <Rescuepage handleAddAdmin={handleAddAdmin} handleRemoveAdmin={handleRemoveAdmin} isAdmin={isAdmin} user={user} rescue={rescue} userRescue={userRescue}/> 

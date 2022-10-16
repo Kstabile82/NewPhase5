@@ -26,12 +26,6 @@ return (
     <div>
     <h3>{rescue.name}</h3> 
     {userRescue && userRescue.status === "Admin" ? <Adminpage user={user} rescue={rescue} handleAddAdmin={handleAddAdmin} handleRemoveAdmin={handleRemoveAdmin} />
-    // <div><button>Edit Rescue Information</button>
-    // <button>Edit Pets</button>
-    // <button onClick={handleUsers}>Edit Users</button>
-    // </div> 
-    // null} 
-    // {!userRescue || userRescue.status === "Guest" && rescue.name !== undefined ? 
     : <div><button onClick={handleShowUserInfo}>Rescue Information</button> <button>Pets</button></div> }
     </div>
 )

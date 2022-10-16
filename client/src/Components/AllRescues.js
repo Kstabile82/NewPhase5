@@ -5,8 +5,6 @@ function AllRescues({ updateUserRescues, user, rescues, setRescue, rescue, isAdm
     let displayedRescueIDs = []
     let displayedRescues = []
     setIsAdmin(false)
-    //setUserRescue({})
-    //fetch userRescues if user
 
     if (user && user.userrescues.length > 0) {
         user.userrescues.map(ur => {
