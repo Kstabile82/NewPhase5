@@ -1,7 +1,9 @@
 class QuestionsController < ApplicationController
+    # wrap_parameters :question, include: [:text, :information_id]
+
     def create
-        q = Question.create(qparams)
-        render json: q, status: 200
+        qstn = Question.create(question_params)
+        render json: qstn, status: 200
     end
    
     def show
@@ -16,14 +18,16 @@ class QuestionsController < ApplicationController
    
     def update
         q = Question.find(params[:id])
-        updatedQ = q.update(qParams)
-        render json: updatedQ
+        q.update(question_params)
+        render json: q, status: 200
     end
 
     private
 
-    def qParams
-        params.permit(:information_id, :text, :idx)
+    def question_params
+        params.permit(:information_id, :questiontext)
+
+        # params.require(:question).permit(:information_id, :text)
     end
 
 end

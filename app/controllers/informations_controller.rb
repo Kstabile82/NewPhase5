@@ -24,7 +24,7 @@ class InformationsController < ApplicationController
     private 
 
     def infoParams
-        params.permit(:rescue_id, :title, :text)
+        params.permit(:rescue_id, :title, :text, :questions)
     end
 
 end

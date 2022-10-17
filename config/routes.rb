@@ -19,7 +19,8 @@ Rails.application.routes.draw do
   post "/newinformation", to: "informations#create"
   patch "/information/:id", to: "informations#update"
   delete "/information/:id", to: "informations#destroy"
-  post "/questions", to: "questions#create"
+  post "/infoquestions", to: "questions#show"
+  post "/newquestion", to: "questions#create"
   patch "/questions/:id", to: "questions#update"
   delete "/questions/:id", to: "questions#destroy"
 

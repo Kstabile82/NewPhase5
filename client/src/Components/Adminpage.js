@@ -8,13 +8,13 @@ function Adminpage({ user, rescue, handleRemoveAdmin, handleAddAdmin }) {
     const [addMoreQs, setAddMoreQs] = useState(false)
     const [editQs, setEditQs] = useState(false)
     const [questions, setQuestions] = useState([])
-    const [info, setInfo] = useState([])
+    const [allInfo, setAllInfo] = useState([])
     const [addInfo, setAddInfo] = useState(false)
     const [addMoreInfo, setAddMoreInfo] = useState(false)
-    const [i, setI] = useState({})
+    const [inf, setInf] = useState({})
+
     let title; 
     let text;
-    let updatedInfo = {}
     useEffect(() => {
         fetch("/information", {
             method: "POST", 
@@ -24,8 +24,8 @@ function Adminpage({ user, rescue, handleRemoveAdmin, handleAddAdmin }) {
             body: JSON.stringify({ rescue_id: parseInt(rescue.id) }),
         })
         .then((r) => r.json())
-        .then((inf) => { 
-            setInfo(inf)
+        .then((allinf) => { 
+            setAllInfo(allinf)
             }
             ) 
         },[]);
@@ -61,6 +61,7 @@ function Adminpage({ user, rescue, handleRemoveAdmin, handleAddAdmin }) {
   function handleSubmitInfo(e){
     e.preventDefault();
     setAddInfo(false)
+    setEditQs(false)
   }
   function handleAddMoreInfo(e){
     e.preventDefault();
@@ -87,22 +88,24 @@ function Adminpage({ user, rescue, handleRemoveAdmin, handleAddAdmin }) {
     })
     .then((r) => r.json())
     .then((newInfo) => {
-        setInfo([...info, newInfo])
+        setAllInfo([...allInfo, newInfo])
     })
    }
    function handleDeleteInfo(e, i) {
-    fetch(`/information/${i.id}`, { 
+    let id = i.id
+    fetch(`/information/${id}`, { 
         method: 'DELETE'
     })
-    setInfo(info.filter(inf => inf.id !== i.id))   }
-    
+    setAllInfo(allInfo.filter(inf => inf.id !== id))  
+ }
     function handleEditQs(e, i) {
-        setEditQs(true)
-        setI(i)
+        if (i !== {}) {
+            setInf(i)
+            setQuestions(i.questions)
+            setEditQs(true)
+        }
     }
     function handleSaveInfoChanges(e, i) {
-        console.log(i)
-        //want the save click to save ONLY what's in that input box
         fetch(`/information/${i.id}`, {
             method: "PATCH",
             headers: {
@@ -111,11 +114,9 @@ function Adminpage({ user, rescue, handleRemoveAdmin, handleAddAdmin }) {
             body: JSON.stringify({ i }),
         })
         .then((r) => r.json())
-        // .then((updatedI) => console.log(info))
-        .then((updatedI) => setInfo([...info.filter(inf => inf.id !== updatedI.id), updatedI]))
+        .then((updatedI) => setAllInfo([...allInfo.filter(infor => infor.id !== updatedI.id), updatedI]))
     }
     function handleInfoChange(e, i) {
-        updatedInfo = i 
         if (e.target.id === "title") {
             i.title = e.target.value;
         }
@@ -140,8 +141,10 @@ return (
         defaultValue={rescue.location}></input>
         <br></br>  
     </form>
-    <button>Save</button>
-    {addInfo && info.length > 0 ? info.map(i => <div>
+    <button>Save Updated Details</button>
+    <br></br>
+    <br></br>
+    {addInfo && allInfo.length > 0 ? allInfo.map(i => <div>
             <form onChange={(e) => handleInfoChange(e, i)}>
             Title: <input 
                 type="text" 
@@ -156,10 +159,11 @@ return (
                 defaultValue={i.text}>
             </input> 
             </form>
-            <button onClick={(e) => handleDeleteInfo(e, i)}>Delete</button><button onClick={(e) => handleSaveInfoChanges(e, i)}>Save</button><button onClick={(e) => handleEditQs(e, i)}>Edit Questions</button><br></br>
+            <button onClick={(e) => handleDeleteInfo(e, i)}>Delete Information</button>
+            <button onClick={(e) => handleSaveInfoChanges(e, i)}>Save Updated Information</button>
+            <button onClick={(e) => handleEditQs(e, i)}>Edit Questions</button><br></br>
+            {editQs && inf !== {} ? <Questions i={inf} questions={questions} setQuestions={setQuestions} /> : null } <br></br><br></br>
         </div> ): null} 
-        {editQs && i !== {} ? <Questions i={i} /> : null }
-
     <button onClick={handleAddMoreInfo}>Add Information</button>
     {addMoreInfo ? <div>
         <form onChange={handleChangeInfo}>
@@ -174,10 +178,13 @@ return (
         </form> 
         <button onClick={handleSaveInfo}>Save</button>
     </div> : null}
-    <button onClick={handleSubmitInfo}>Submit</button> 
+    <br></br>
+    <button onClick={handleSubmitInfo}>Close</button> 
     </div>
     : null}
+    <br></br>
     <button>Edit Pets</button>
+    <br></br>
     <button onClick={handleUsers}>Edit Users</button>
     {clicked === "users" && viewedUsers.length > 0 ? viewedUsers.map(v => <div><p>{v.user.name}, {v.status}</p> 
     {v.status === "Admin" ? 

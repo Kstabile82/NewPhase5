@@ -3,6 +3,6 @@ class RescueSerializer < ActiveModel::Serializer
    has_many :userrescues
    has_many :users
    has_many :informations
-
+   has_many :questions
 
 end
