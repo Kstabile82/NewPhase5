@@ -8,10 +8,13 @@ function Adminpage({ user, rescue, handleRemoveAdmin, handleAddAdmin }) {
     const [addMoreQs, setAddMoreQs] = useState(false)
     const [editQs, setEditQs] = useState(false)
     const [questions, setQuestions] = useState([])
+    const [question, setQuestion] = useState({})
     const [allInfo, setAllInfo] = useState([])
     const [addInfo, setAddInfo] = useState(false)
     const [addMoreInfo, setAddMoreInfo] = useState(false)
     const [inf, setInf] = useState({})
+    const [opts, setOpts] = useState([])
+    const [addOpt, setAddOpt] = useState(false)
 
     let title; 
     let text;
@@ -162,7 +165,7 @@ return (
             <button onClick={(e) => handleDeleteInfo(e, i)}>Delete Information</button>
             <button onClick={(e) => handleSaveInfoChanges(e, i)}>Save Updated Information</button>
             <button onClick={(e) => handleEditQs(e, i)}>Edit Questions</button><br></br>
-            {editQs && inf !== {} ? <Questions i={inf} questions={questions} setQuestions={setQuestions} /> : null } <br></br><br></br>
+            {editQs && inf !== {} ? <Questions i={inf} questions={questions} setQuestions={setQuestions} question={question} setQuestion={setQuestion} opts={opts} setOpts={setOpts} addOpt={addOpt} setAddOpt={setAddOpt}/> : null } <br></br><br></br>
         </div> ): null} 
     <button onClick={handleAddMoreInfo}>Add Information</button>
     {addMoreInfo ? <div>
