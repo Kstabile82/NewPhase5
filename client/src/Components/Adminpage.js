@@ -4,8 +4,6 @@ import Questions from "./Questions";
 function Adminpage({ user, rescue, handleRemoveAdmin, handleAddAdmin }) {
     const [viewedUsers, setViewedUsers] = useState([])
     const [clicked, setClicked] = useState("")
-    const [showingInfoForms, setShowingInfoForms] = useState(false)
-    const [addMoreQs, setAddMoreQs] = useState(false)
     const [editQs, setEditQs] = useState(false)
     const [questions, setQuestions] = useState([])
     const [question, setQuestion] = useState({})
@@ -15,16 +13,20 @@ function Adminpage({ user, rescue, handleRemoveAdmin, handleAddAdmin }) {
     const [inf, setInf] = useState({})
     const [opts, setOpts] = useState([])
     const [addOpt, setAddOpt] = useState(false)
+    const [options, setOptions] = useState([])
+
 
     let title; 
     let text;
     useEffect(() => {
-        fetch("/information", {
+        fetch(`/information/${rescue.id}`, {
             method: "POST", 
             headers: {
                 "Content-Type": "application/json"
             },
+            // body: JSON.stringify({ rescue_id: parseInt(rescue.id) }),
             body: JSON.stringify({ rescue_id: parseInt(rescue.id) }),
+
         })
         .then((r) => r.json())
         .then((allinf) => { 
@@ -49,14 +51,12 @@ function Adminpage({ user, rescue, handleRemoveAdmin, handleAddAdmin }) {
             }
             ) 
        }
-  function handleShowAdminInfo(e) {
-    e.preventDefault();
-    setShowingInfoForms(true)
-  }
-  function handleAddMoreQs(e) {
-    e.preventDefault();
-    setAddMoreQs(true)
-  }
+//   function handleShowAdminInfo(e) {
+//     e.preventDefault();
+//   }
+//   function handleAddMoreQs(e) {
+//     e.preventDefault();
+//   }
   function handleAddInfo(e) {
     e.preventDefault();
     setAddInfo(true)
@@ -137,10 +137,12 @@ return (
         <input 
         type="text" 
         id="rescuename" 
+        key={rescue.name}
         defaultValue={rescue.name}></input>  
         <input 
         type="text" 
         id="rescuelocation" 
+        key={rescue.location}
         defaultValue={rescue.location}></input>
         <br></br>  
     </form>
@@ -152,12 +154,14 @@ return (
             Title: <input 
                 type="text" 
                 id="title" 
+                key={i.title[0]}
                 placeholder={i.title}
                 defaultValue={i.title}>
             </input><br></br>
             Text: <input 
                 type="text" 
                 id="text" 
+                key={i.text[0]}
                 placeholder={i.text}
                 defaultValue={i.text}>
             </input> 
@@ -165,18 +169,20 @@ return (
             <button onClick={(e) => handleDeleteInfo(e, i)}>Delete Information</button>
             <button onClick={(e) => handleSaveInfoChanges(e, i)}>Save Updated Information</button>
             <button onClick={(e) => handleEditQs(e, i)}>Edit Questions</button><br></br>
-            {editQs && inf !== {} ? <Questions i={inf} questions={questions} setQuestions={setQuestions} question={question} setQuestion={setQuestion} opts={opts} setOpts={setOpts} addOpt={addOpt} setAddOpt={setAddOpt}/> : null } <br></br><br></br>
+            {editQs && inf !== {} ? <Questions options={options} setOptions={setOptions} i={inf} questions={questions} setQuestions={setQuestions} question={question} setQuestion={setQuestion} opts={opts} setOpts={setOpts} addOpt={addOpt} setAddOpt={setAddOpt}/> : null } <br></br><br></br>
         </div> ): null} 
     <button onClick={handleAddMoreInfo}>Add Information</button>
     {addMoreInfo ? <div>
         <form onChange={handleChangeInfo}>
             <input 
             type="text" 
-            id="rescuelocation" 
+            id="title" 
+            key="ttl"
             placeholder="Title"></input>
             <input 
             type="text" 
-            id="rescuelocation" 
+            id="text" 
+            key="txt"
             placeholder="Enter text"></input>
         </form> 
         <button onClick={handleSaveInfo}>Save</button>
@@ -189,7 +195,7 @@ return (
     <button>Edit Pets</button>
     <br></br>
     <button onClick={handleUsers}>Edit Users</button>
-    {clicked === "users" && viewedUsers.length > 0 ? viewedUsers.map(v => <div><p>{v.user.name}, {v.status}</p> 
+    {clicked === "users" && viewedUsers.length > 0 ? viewedUsers.map(v => <div key={v.id}><p key={v.user.name}>{v.user.name}, {v.status}</p> 
     {v.status === "Admin" ? 
     <button onClick={(e) => handleRemoveAdmin(e, v)}>Remove Admin</button> :
     <button onClick={(e) => handleAddAdmin(e, v)}>Make Admin</button>  

@@ -13,10 +13,20 @@ class UserrescuesController < ApplicationController
         render json: userR
     end
   
+    # def destroy
+    #     uR = Userrescue.find(params[:id])
+    #     uR.destroy
+    #     head :no_content
+    # end
     def destroy
         uR = Userrescue.find(params[:id])
-        uR.destroy
-        head :no_content
+        if uR.status === "Admin"
+            resc = Rescue.find(uR.rescue_id)
+            render json: { message: `You're the only admin for #{resc}. Before you can delete this rescue from your list, you need to assign a new admin.`}
+        else
+            uR.destroy
+            render json: { message: "Deleted" }
+        end
     end
 
     def showalluserstoadmin

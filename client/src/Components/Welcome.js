@@ -4,10 +4,11 @@ function Welcomepage({ user, handleLogout }) {
 
     function handleDelete(e){
       e.preventDefault();
-      fetch(`/deleteme/${user.id}`, { method: "DELETE" }).then((r) => {
-        if (r.ok) {
-          handleLogout();
-        }
+      fetch(`/user/${user.id}`, { method: "DELETE" }).then((r) => {
+        console.log(r)
+        // if (r.ok) {
+        //   handleLogout();
+        // }
     })
     }
 return (

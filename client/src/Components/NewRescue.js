@@ -47,7 +47,7 @@ function postNewRescue(newRescue) {
     .then((r) => r.json())
     .then(rescue => {
         setRescues([...rescues, rescue])
-        fetch ("/userrescue", {
+        fetch ("/myrescues", {
             method: "POST",
             headers: {
             "Content-Type": "application/json",
@@ -55,20 +55,24 @@ function postNewRescue(newRescue) {
             body: JSON.stringify({ rescue_id: rescue.id, user_id: user.id, status: "Admin" })
             })
         .then((r) => r.json())
-        .then((r) => setUserRescues([...userRescues, r]))
+        .then((r) => {
+            console.log(r)
+            setUserRescues([...userRescues, r]) 
+            
+        })
     })
 }
-function createAdmin(rescue) {
-    fetch ("/userrescue", {
-        method: "POST",
-        headers: {
-        "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ rescue_id: rescue.id, user_id: user.id, status: "Admin" })
-        })
-    .then((r) => r.json())
-    .then((r) => console.log(r))
-}
+// function createAdmin(rescue) {
+//     fetch ("/myrescues", {
+//         method: "POST",
+//         headers: {
+//         "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({ rescue_id: rescue.id, user_id: user.id, status: "Admin" })
+//         })
+//     .then((r) => r.json())
+//     .then((r) => console.log(r))
+// }
     return (
         <div className="add-rescue-form">
              <form onSubmit={handleSubmit}>

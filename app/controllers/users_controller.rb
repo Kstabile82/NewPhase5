@@ -37,10 +37,27 @@ class UsersController < ApplicationController
         end
     end
 
+    # def destroy
+    #     find_user(params[:id])
+    #     user.destroy
+    #     session[:user_id] = nil
+    # end
+
     def destroy
-        find_user(params[:id])
-        user.destroy
-        session[:user_id] = nil
+        user = User.find(params[:id])
+        # resc = []
+        admin = user.userrescues.find_by(status: "Admin")
+        if admin != nil 
+            # admin.find_each do |admin|
+              rescid = admin.rescue_id
+              resc = Rescue.find(rescid)
+            #   resc << Rescue.find(rescid)
+              render json: { message: `Before you can delete your account, you need to assign a new admin for: #{resc}`}
+            # end
+        else
+            user.destroy
+            session[:user_id] = nil
+        end
     end
 
     private 

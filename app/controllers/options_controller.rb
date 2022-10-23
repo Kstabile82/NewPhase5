@@ -3,7 +3,7 @@ class OptionsController < ApplicationController
         option = Option.create(optionParams)
         render json: option, status: 200
     end
-    
+
     def show
         option = Option.where(question_id: params[:question_id])
         render json: info, status: 200

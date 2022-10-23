@@ -1,38 +1,19 @@
-import React, { useState } from "react"; 
+import React from "react"; 
 import Rescuepage from "./Rescuepage";
 
-function MyRescues({ handleRemoveAdmin, handleAddAdmin, user, rescue, setRescue, userRescues, setUserRescues, isAdmin, setIsAdmin, isGuest, setIsGuest }) { 
-  const [userRescue, setUserRescue] = useState({}) 
-    setUserRescues(user.userrescues)  
-    setIsAdmin(true)
+function MyRescues({ resc, setResc, rescues, userRescue, setUserRescue, onDeleteUserRescue, handleRemoveAdmin, handleAddAdmin, user, userRescues, setUserRescues, isAdmin, setIsAdmin, isGuest, setIsGuest }) { 
   function handleClick(e, uR) {
     setUserRescue(uR)
     if (uR.status === "Admin"){
         setIsAdmin(true)
     }
-    setRescue(uR.rescue)
-        //    if(uR.status === "Admin"){
-        //     setIsAdmin(true)
-        //    }
-        //    else if(uR.status === "Guest") {
-        //     setIsGuest(true)
-        //    }
-        //     setClickedRescue(true)
-        //     // setRescue(uR)
-        }
-
+    setResc(rescues.find(r => r.id === uR.rescue.id))
+   }
 //     function handleChangeStatus(e, h) {
 //        e.preventDefault();
 //        setNewStatus(e.target.value)
 //     }
 
-//     function handleDelete(h, e) {
-//      e.preventDefault();
-//         fetch(`/hikerhikes/${h.id}`, { 
-//         method: 'DELETE'
-//     })
-//     setUserHikes(userHikes.filter(uH => uH.id !== h.id))
-//   }
 //   function handleSubmitStatus(h, e) {
 //     e.preventDefault();
 //     fetch(`/hikerhikes/${h.id}`, {
@@ -53,13 +34,12 @@ function MyRescues({ handleRemoveAdmin, handleAddAdmin, user, rescue, setRescue,
 return (
     <div>
       <p>{user.name}'s Rescues:</p>
-      {userRescues.map(uR => <div onClick={(e) => handleClick(e, uR)}>{uR.rescue.name} • Status: {uR.status}
-</div> )}
-      {rescue.name !== undefined ? 
-      <div>
-      <Rescuepage handleAddAdmin={handleAddAdmin} handleRemoveAdmin={handleRemoveAdmin} isAdmin={isAdmin} user={user} rescue={rescue} userRescue={userRescue}/> 
-      </div> : null } 
-   
+      {userRescues.map(uR => <div key={uR.id} onClick={(e) => handleClick(e, uR)}>{uR.rescue.name} • Status: {uR.status}
+  </div> )}
+      {resc.name !== undefined ? 
+       <div key={resc.id}>
+      <Rescuepage onDeleteUserRescue={onDeleteUserRescue} handleAddAdmin={handleAddAdmin} handleRemoveAdmin={handleRemoveAdmin} isAdmin={isAdmin} user={user} rescue={resc} setRescue={setResc} userRescue={userRescue}/> 
+      </div> : null }  
     </div>
 )
 }

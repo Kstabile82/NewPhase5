@@ -1,6 +1,9 @@
 import './App.css';
 import { useState, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
+// import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+// import ReactToPrint from 'react-to-print';
+// import { Document, Page } from 'react-pdf'
 import NavBar from "./NavBar";
 import LogIn from "./LogIn";
 import SignUp from "./SignUp";
@@ -8,26 +11,27 @@ import Welcome from "./Welcome";
 import AllRescues from "./AllRescues";
 import MyRescues from "./MyRescues";
 import NewRescue from "./NewRescue";
+// import { Viewer } from '@react-pdf-viewer/core';
+// import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+// import '@react-pdf-viewer/core/lib/styles/index.css';
+// import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+// import { Worker } from '@react-pdf-viewer/core';
 
-function App() {
+function App(){
+  // const defaultLayoutPluginInstance = defaultLayoutPlugin();
+
   const [user, setUser] = useState(null);
   const [loggedOut, setLoggedOut] = useState(true);
   const [rescues, setRescues] = useState([])
   const [userRescues, setUserRescues] = useState([])
+  const [userRescue, setUserRescue] = useState({}) 
   const [isAdmin, setIsAdmin] = useState(false)
-  const [rescue, setRescue] = useState({})
-
-  useEffect(() => {
-    fetch("/me")
-    .then((response) => {
-      if (response.ok) {
-        response.json().then((u) => {
-          setUser(u)
-          setLoggedOut(false)
-        })
-      }
-    })
-  }, []);
+  const [resc, setResc] = useState({})
+  const [input, setInput] = useState()
+  // const [uploadFile, setUploadFile] = useState()
+  const [pdfFile, setPdfFile] = useState()
+  const [viewPdf, setViewPdf]=useState(null);
+  // const [pdfFileErr, setPdfFileErr]=useState('')
 
   useEffect(() => {
     fetch("/rescues")
@@ -35,18 +39,66 @@ function App() {
     .then((currentRescues) => setRescues(currentRescues));
     },[]);
 
+    useEffect(() => {
+    fetch("/me")
+    .then((response) => {
+      if (response.ok) {
+        response.json().then((u) => {
+          // setUser(u)
+          // setUserRescues(u.userrescues)
+          setLoggedOut(false)
+        })
+      }
+    })
+  }, []);
+
+function handlePdfChange(e){
+  e.preventDefault();
+  let file = e.target.files[0]
+  // console.log(uploadFile[0].type === "application/pdf" || uploadFile[0].type === "pdf")
+  if (file.type === "application/pdf") { 
+    let reader = new FileReader();
+      reader.readAsDataURL(file);
+        reader.onloadend = (e) => {
+          setPdfFile(file)
+        }
+    }
+    else {
+      setPdfFile(null)
+    }
+}
+function submitForm(e){
+  e.preventDefault();
+  if(pdfFile!==null){
+    setViewPdf(pdfFile);
+  }
+  else{
+    setViewPdf(null);
+  }
+}
+
+
   function handleLogIn(user) {
     setUser(user);
     setLoggedOut(false)
+    setUserRescues(user.userrescues)
+
     // setUserRescues(user.userrescues)
 
   }
+  function onDeleteUserRescue(rescue, user) {
+    let id = user.userrescues.find(uR => uR.rescue_id === rescue.id)
+      fetch(`/userrescue/${id}`, { 
+            method: 'DELETE'
+        })
+        setUserRescues(userRescues.filter(uRs => uRs.id !== id))  
+      }
+
   function handleLogout() {
     setUser(null);
     setLoggedOut(true)
     setUserRescues([])
-    setRescue({})
-  
+    setResc({})
   }
   function updateUserRescues(rescue, e) {
     e.preventDefault();
@@ -105,18 +157,42 @@ function handleAddAdmin(e, v){
        </Route> : null} 
        {user && !loggedOut ? 
        <Route exact path="/myrescues">
-        <MyRescues handleRemoveAdmin={handleRemoveAdmin} handleAddAdmin={handleAddAdmin} setRescue={setRescue} rescue={rescue} isAdmin={isAdmin} setIsAdmin={setIsAdmin} user={user} userRescues={userRescues} setUserRescues={setUserRescues} />
+        <MyRescues rescues={rescues} userRescue={userRescue} setUserRescue={setUserRescue} onDeleteUserRescue={onDeleteUserRescue} handleRemoveAdmin={handleRemoveAdmin} handleAddAdmin={handleAddAdmin} setResc={setResc} resc={resc} isAdmin={isAdmin} setIsAdmin={setIsAdmin} user={user} userRescues={userRescues} setUserRescues={setUserRescues} />
         </Route>  : null} 
         {user && !loggedOut ? 
           <Route exact path="/allrescues">
-         <AllRescues updateUserRescues={updateUserRescues} setRescue={setRescue} rescue={rescue} isAdmin={isAdmin} setIsAdmin={setIsAdmin} user={user} handleLogout={handleLogout} rescues={rescues} setRescues={setRescues} />
+         <AllRescues updateUserRescues={updateUserRescues} setResc={setResc} resc={resc} isAdmin={isAdmin} setIsAdmin={setIsAdmin} user={user} handleLogout={handleLogout} rescues={rescues} setRescues={setRescues} />
          </Route> : null} 
          {user && !loggedOut ? 
           <Route exact path="/newrescue">
           <NewRescue user={user} setRescues={setRescues} rescues={rescues} userRescues={userRescues} setUserRescues={setUserRescues} />
           </Route> 
        : null} 
-    </Switch>
+    </Switch> 
+    {/* <Document file={pdfFile} >
+      <Page></Page>
+    </Document> */}
+    <h4>Upload PDF</h4>
+      <form onSubmit={submitForm}>
+        <input
+        type="text"
+        onChange={(e) => 
+          setInput(e.target.value)
+           }
+        placeholder="pdf"/>
+        {/* <input type="file" onChange={(e) => setUploadFile(e.target.files)}/> */}
+        <input type="file" onChange={handlePdfChange}/>
+        <input type="submit" />
+      </form>
+      <h4>View PDF</h4>
+      <div className='pdf-container'>
+      {/* { viewPdf&&<><Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
+      <Viewer fileUrl={viewPdf}/> */}
+      {/* plugins={[defaultLayoutPluginInstance]} /> */}
+{/* 
+            </Worker> </>}
+      {!viewPdf&&<>No pdf file selected</>}  */}
+      </div>
   </div>
   );
 }
