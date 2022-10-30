@@ -4,7 +4,7 @@ Rescue.create({ name: "LIRRG", location: "Long Island, NY" })
 Rescue.create({ name: "Posh Pets", location: "Long Beach, NY" })
 Rescue.create({ name: "Kitty Cove", location: "Queens, NY" })
 
-User.create({ name: "Karina", location: "Long Beach, NY", password_digest: "dolly"})
+User.create({ name: "Karina", location: "Long Beach, NY", password: "dolly"})
 User.create({ name: "Dolly", location: "Long Beach, NY", password_digest: "bunny"})
 User.create({ name: "Linda", location: "Queens, NY", password_digest: "test"})
 User.create({ name: "Jim", location: "NY, NY", password_digest: "test"})

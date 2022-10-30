@@ -12,8 +12,9 @@ function AllRescues({ updateUserRescues, user, rescues, setRescue, rescue, isAdm
         })
     }
     displayedRescues = rescues.filter(r => !displayedRescueIDs.includes(r.id))
- 
+
     function handleClick(e, r) {
+        e.preventDefault();
       setRescue(r)
     //   let num = parseInt(e.target.className);
     //   setRescue(rescues.find(r => r.id === num))
@@ -49,14 +50,13 @@ function AllRescues({ updateUserRescues, user, rescues, setRescue, rescue, isAdm
                 <b> </b> 
              </form> 
             </div>
-            {displayedRescues.map(r => <div>
+            {rescues.map(r => <div>
                 <p className={r.id} onClick={(e) => handleClick(e,r)}>{r.name}, {r.location}</p>             
             <button onClick={(e) => handleSaveToMyRescues(e, r)}>Save to My Rescues</button> 
             </div>)}
-           {rescue.name !== undefined ? <div>
-            <Rescuepage isAdmin={isAdmin} setIsAdmin={setIsAdmin} user={user} rescue={rescue}/> 
-            {/* <button onClick={(e) => handleSaveToMyRescues(e, rescue)}>Save to My Rescues</button> </div> : null } */}
-           </div> : null }
+           {/* {rescue.name !== undefined ? <div>
+            <Rescuepage isAdmin={isAdmin} setIsAdmin={setIsAdmin} user={user} rescue={rescue}/>  
+            </div> : null }  */}
            
         </div>
     );

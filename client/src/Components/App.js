@@ -31,6 +31,7 @@ function App(){
   // const [uploadFile, setUploadFile] = useState()
   const [pdfFile, setPdfFile] = useState()
   const [viewPdf, setViewPdf]=useState(null);
+  const [rescue, setRescue] = useState({})
   // const [pdfFileErr, setPdfFileErr]=useState('')
 
   useEffect(() => {
@@ -38,7 +39,6 @@ function App(){
     .then((r) => r.json())
     .then((currentRescues) => setRescues(currentRescues));
     },[]);
-
     useEffect(() => {
     fetch("/me")
     .then((response) => {
@@ -161,7 +161,7 @@ function handleAddAdmin(e, v){
         </Route>  : null} 
         {user && !loggedOut ? 
           <Route exact path="/allrescues">
-         <AllRescues updateUserRescues={updateUserRescues} setResc={setResc} resc={resc} isAdmin={isAdmin} setIsAdmin={setIsAdmin} user={user} handleLogout={handleLogout} rescues={rescues} setRescues={setRescues} />
+         <AllRescues updateUserRescues={updateUserRescues} setResc={setResc} resc={resc} isAdmin={isAdmin} setIsAdmin={setIsAdmin} user={user} handleLogout={handleLogout} rescues={rescues} setRescues={setRescues} rescue={rescue} setRescue={setRescue} />
          </Route> : null} 
          {user && !loggedOut ? 
           <Route exact path="/newrescue">
