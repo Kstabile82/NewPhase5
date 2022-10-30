@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::API
   include ActionController::Cookies
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
+  rescue_from ActiveRecord::RecordNotFound, with: :render_unprocessable_entity_response
 
     private
 
@@ -14,5 +15,9 @@ class ApplicationController < ActionController::API
 
     # render json: { errors: invalid.record.errors }, status: :not_found
     end
+    def render_unprocessable_entity_response
+      render json: { error: "ID not found" }, status: :unprocessable_entity
 
+    # render json: { errors: invalid.record.errors }, status: :not_found
+    end
 end

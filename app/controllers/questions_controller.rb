@@ -1,8 +1,9 @@
 class QuestionsController < ApplicationController
     # wrap_parameters :question, include: [:text, :information_id]
+    rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
 
     def create
-        qstn = Question.create(question_params)
+        qstn = Question.create!(question_params)
         render json: qstn, status: 200
     end
    
@@ -18,7 +19,7 @@ class QuestionsController < ApplicationController
    
     def update
         q = Question.find(params[:id])
-        q.update(question_params)
+        q.update!(question_params)
         render json: q, status: 200
     end
 

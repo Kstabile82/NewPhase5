@@ -6,6 +6,7 @@ function Questions({ options, setOptions, i, questions, setQuestions, addOpt, se
     // const [opts, setOpts] = useState([])
     // const [addOpt, setAddOpt] = useState(false)
     // const [question, setQuestion] = useState({})
+    const [qn, setQn] = useState({})
     let newOptionInput; 
     let qText; 
     let correctAnswer; 
@@ -91,8 +92,10 @@ function Questions({ options, setOptions, i, questions, setQuestions, addOpt, se
     function handleAddOption(e, qn) {
         e.preventDefault();
         setAddOpt(true)
+        setQn(qn)
+        setOptions(qn.optionmethod)
     }
-  
+    console.log(options)
         function handleChange(e, qn) {
         if (e.target.id === "option"){
             newOptionInput = e.target.value
@@ -128,16 +131,21 @@ function Questions({ options, setOptions, i, questions, setQuestions, addOpt, se
             "Content-Type": "application/json",
             },
             body: JSON.stringify({
-            question_id: question.id,
+            question_id: qn.id,
             text: newOptionInput,
             correct: correctAnswer
             }),
         })
         .then((r) => r.json())
         .then((newO) => {
-        //   setOpts([...opts, newO])
+          setOptions([...options, newO])
           setAddOpt(false)
         })
+    }
+    function handleDeleteOption(e, o) {
+        e.preventDefault();
+        //delete request for o
+        //option and question state updates all happen from Adminpage
     }
     return (
         <div>
@@ -149,9 +157,11 @@ function Questions({ options, setOptions, i, questions, setQuestions, addOpt, se
                     id="question" 
                     defaultValue={qn.questiontext}>
                     </input>  
-                    {qn.optionmethod.map(o => {
+                    {qn.optionmethod.map(o => <div><p>{o.text}</p><button onClick={(e) => handleDeleteOption(e, o)}>-</button></div>)}
+
+                    {/* {qn.optionmethod.map(o => {
                     <input type="text" id="o.id" defaultValue="Option">{o.text}, {o.status}</input>
-                    })} 
+                    })}  */}
                     {/* {qn.optionmethod.map(o => 
                     <input 
                     type="text" 

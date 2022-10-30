@@ -1,4 +1,6 @@
 class InformationsController < ApplicationController
+    rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
+
 
     def show
      info = Information.where(rescue_id: params[:rescue_id])
@@ -6,7 +8,7 @@ class InformationsController < ApplicationController
     end
 
     def create
-        info = Information.create(infoParams)
+        info = Information.create!(infoParams)
         render json: info, status: 200
     end
 
@@ -17,8 +19,8 @@ class InformationsController < ApplicationController
 
     def update
         info = Information.find(params[:id])
-        info.update(infoParams)
-        render json: info
+        info.update!(infoParams)
+        render json: info, status: 200
     end
 
     private 
